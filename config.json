@@ -7,5 +7,7 @@
   "windowPositionX": 80,
   "windowPositionY": 40,
   "browser": "auto",
-  "browserFamily": ""
+  "browserFamily": "",
+  "apiBaseUrl": "https://api.deepseek.com",
+  "keyEnv": "DEEPSEEK_API_KEY"
 }

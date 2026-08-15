@@ -144,26 +144,34 @@
   DeepSeek Harness，无需再打开浏览器，也没有标签页和地址栏，体验如同一个本地安装的桌面应用。
 </p>
 <ul>
-  <li><strong>一键启动</strong>：双击图标，自动拉起后台服务并弹出应用窗口。</li>
-  <li><strong>独立窗口</strong>：自动检测系统已安装/默认的浏览器，以「应用模式」打开无标签页、无地址栏的独立窗口，不额外拉起普通浏览器窗口。</li>
+  <li><strong>一键启动</strong>：双击图标，自动拉起后台服务并弹出应用窗口；已在运行时不会重复启动。</li>
+  <li><strong>启动动画</strong>：点击后显示「DeepSeek Harness」启动动画（DeepSeek 鲸鱼图标 + 进度条），启动完成后自动进入应用。</li>
+  <li><strong>独立窗口</strong>：自动检测系统默认/已安装的浏览器，以「应用模式」打开无标签页、无地址栏的独立窗口，不会新开普通浏览器窗口。</li>
+  <li><strong>随窗口启停</strong>：关闭窗口后自动结束后台 <code>dsh web</code> 进程；下次点击图标自动重新启动。</li>
+  <li><strong>首次配置</strong>：首次使用时弹出输入框要求输入 DeepSeek API Key 并联网校验，通过后保存到本机凭据。</li>
   <li><strong>官方图标</strong>：桌面/开始菜单图标采用 DeepSeek 官方鲸鱼 Logo。</li>
-  <li><strong>可配置</strong>：端口、默认工作区、窗口大小位置均可在配置文件中调整。</li>
+  <li><strong>可配置</strong>：端口、默认工作区、窗口大小位置、浏览器、API 地址均可在配置文件中调整。</li>
 </ul>
 
 <h2 id="principle">2. 运行原理</h2>
-<p>桌面版本身不改变 DeepSeek Harness 的架构，它做的是「自动后台启动 + 前台独立窗口」两件事：</p>
+<p>桌面版本身不改变 DeepSeek Harness 的架构，它做的是「首次配置 + 随窗口启停的后台服务 + 前台独立窗口」：</p>
 <ol>
-  <li>启动器检测后台 Web 服务是否已在运行（默认 <code>http://127.0.0.1:3080</code>）。</li>
-  <li>若未运行，则以后台守护方式执行 <code>dsh web</code>，并等待服务就绪。</li>
-  <li>服务就绪后，自动选择浏览器（默认使用系统默认浏览器），以「应用模式」打开一个独立窗口指向该地址。</li>
+  <li>首次使用：检测本机是否已配置 DeepSeek API Key；未配置则弹出输入框，联网校验后保存到 <code>~\.dsh\.credentials.yaml</code>。</li>
+  <li>检测后台 Web 服务是否已在运行（默认 <code>http://127.0.0.1:3080</code>）；未运行则执行 <code>dsh web</code>（等价于 <code>npx @deepseek-ai/dsh web</code>）并等待就绪。</li>
+  <li>服务就绪后，自动选择浏览器（默认系统默认浏览器），以「应用模式」打开独立窗口。</li>
+  <li>窗口关闭后，启动器结束由它启动的后台进程并退出；下次点击图标时自动重新启动。</li>
 </ol>
 <pre class="code"><code>双击图标
+   │
+   ├─► 首次使用？── 是 ─► 输入 API Key ─► 联网校验 ─► 保存
    │
    ├─► 检测端口 127.0.0.1:3080
    │       ├─ 已在运行 ──────────────────────────┐
    │       └─ 未运行 ─► 启动 dsh web ─► 等待就绪 ─┤
    │                                             ▼
-   └─────────────────────────────► 打开独立应用窗口（Chromium 系 --app 模式）</code></pre>
+   ├─────────────────────────────► 打开独立应用窗口（Chromium 系 --app 模式）
+   │
+   └─► 窗口关闭 ─► 结束后台 dsh web ─► 释放窗口与进程</code></pre>
 
 <h2 id="require">3. 系统要求</h2>
 <table>
@@ -198,11 +206,12 @@
 <h2 id="usage">5. 使用方法</h2>
 <ol>
   <li>双击桌面上的 <strong>「DeepSeek Harness」</strong>图标。</li>
-  <li><strong>首次启动</strong>会先在后台启动服务，通常数秒后自动弹出应用窗口（无浏览器工具栏）。</li>
-  <li>若服务此前已在运行，则直接打开窗口，秒开。</li>
+  <li><strong>首次使用</strong>会弹出窗口要求输入 DeepSeek API Key（掩码显示），联网校验通过后自动保存；之后无需再次输入。</li>
+  <li>启动器在后台启动服务，通常数秒后自动弹出应用窗口（无浏览器工具栏）。</li>
   <li>在窗口中即可像网页版一样开始对话与使用（工作区、会话、设置等均与网页版一致）。</li>
+  <li><strong>关闭窗口</strong>后，启动器会自动结束后台服务进程并释放窗口；下次点击图标会重新启动。</li>
 </ol>
-<div class="note"><strong>说明：</strong>启动后后台服务会常驻（即使关闭窗口，服务仍运行，便于下次秒开）。如需彻底停止服务，可结束 Node.js 相关进程，或重启电脑。</div>
+<div class="note"><strong>说明：</strong>后台服务仅在窗口打开期间运行，关闭窗口即停止。若使用 QQ 浏览器等无法可靠感知窗口关闭的浏览器，服务可能不会自动停止，建议在 <code>config.json</code> 中设置 <code>"browser": "edge"</code>（Edge 原生支持无边框应用窗口）以获得完整的自动启停体验。</div>
 
 <h2 id="config">6. 配置说明</h2>
 <p>编辑程序目录下的 <code>config.json</code> 可自定义启动行为，保存后下次启动生效：</p>
@@ -217,6 +226,8 @@
   <tr><td><code>windowPositionY</code></td><td><code>40</code></td><td>窗口左上角 Y 坐标</td></tr>
   <tr><td><code>browser</code></td><td><code>auto</code></td><td>使用哪个浏览器打开：<code>auto</code>（自动检测默认浏览器）、<code>default</code>（强制系统默认）、或具体 id（<code>chrome</code>/<code>edge</code>/<code>firefox</code>/<code>brave</code>/<code>qq</code>/<code>360</code>/<code>opera</code>/<code>vivaldi</code>/<code>sogou</code>），或浏览器可执行文件完整路径</td></tr>
   <tr><td><code>browserFamily</code></td><td>空</td><td>仅当 <code>browser</code> 填自定义路径时可选：<code>chromium</code>（独立窗口）/ <code>firefox</code> / <code>other</code></td></tr>
+  <tr><td><code>apiBaseUrl</code></td><td><code>https://api.deepseek.com</code></td><td>API Key 校验与模型调用的 DeepSeek API 地址（可改为 OpenAI 兼容网关）</td></tr>
+  <tr><td><code>keyEnv</code></td><td><code>DEEPSEEK_API_KEY</code></td><td>凭据键名，对应 <code>~\.dsh\.credentials.yaml</code> 中的条目</td></tr>
 </table>
 
 <h2 id="faq">7. 常见问题</h2>
@@ -225,7 +236,8 @@
 <p>请查看启动日志：<code>%LOCALAPPDATA%\DeepSeekHarness\launcher.log</code>。常见原因：</p>
 <ul>
   <li>Node.js 不在 PATH 中 —— 可运行 <code>start.cmd</code> 查看控制台报错。</li>
-  <li>未安装 Microsoft Edge。</li>
+  <li>未安装任何受支持的浏览器。</li>
+  <li>应用已在运行（单实例保护，本次不再重复启动）。</li>
 </ul>
 
 <h3>Q2：窗口打开了，但页面一直转圈或报错？</h3>
@@ -246,6 +258,18 @@
 <p>编辑 <code>config.json</code>，把 <code>browser</code> 设为对应值即可，例如 <code>"browser": "edge"</code> 或 <code>"browser": "chrome"</code>。
 默认 <code>auto</code> 会自动使用系统默认浏览器。Chromium 系浏览器会以独立窗口（无地址栏）打开；Firefox 会以新窗口打开。</p>
 
+<h3>Q7：首次使用时如何输入 / 更换 API Key？</h3>
+<p>首次使用时启动器会自动弹出输入框（掩码显示），输入后联网校验，通过即保存到
+<code>C:\Users\&lt;用户名&gt;\.dsh\.credentials.yaml</code>。要更换，直接编辑该文件中的
+<code>DEEPSEEK_API_KEY</code> 一行，或删除该行后重新点击图标（会再次弹出输入框）。</p>
+
+<h3>Q8：API Key 校验失败怎么办？</h3>
+<ul>
+  <li><strong>提示“格式不正确”</strong>：Key 应以 <code>sk-</code> 开头，请检查是否复制完整。</li>
+  <li><strong>提示“认证失败 401”</strong>：Key 错误或已失效，请到 DeepSeek 开放平台重新生成。</li>
+  <li><strong>提示“无法连接”</strong>：网络不通或无法访问 <code>api.deepseek.com</code>，请检查网络/代理。</li>
+</ul>
+
 <h2 id="uninstall">8. 卸载</h2>
 <ol>
   <li>双击运行程序目录下的 <code>uninstall.cmd</code>。</li>
@@ -257,9 +281,11 @@
 <h2 id="files">9. 文件清单</h2>
 <table>
   <tr><th style="width:34%">文件</th><th>用途</th></tr>
-  <tr><td><code>launcher.js</code></td><td>核心启动器：检测服务 → 启动 → 打开窗口</td></tr>
+  <tr><td><code>launcher.js</code></td><td>核心启动器：首次配置 → 检测服务 → 启动 → 打开窗口 → 关闭后清理</td></tr>
   <tr><td><code>launcher.vbs</code></td><td>隐藏控制台的启动入口（桌面快捷方式指向它）</td></tr>
   <tr><td><code>start.cmd</code></td><td>带控制台的调试入口（排错时使用）</td></tr>
+  <tr><td><code>prompt-key.ps1</code></td><td>首次使用弹出 API Key 输入框（掩码显示）</td></tr>
+  <tr><td><code>splash.ps1</code></td><td>启动动画（DeepSeek 图标 + DeepSeek Harness）</td></tr>
   <tr><td><code>install.cmd</code> / <code>install.ps1</code></td><td>安装脚本（生成快捷方式）</td></tr>
   <tr><td><code>uninstall.cmd</code> / <code>uninstall.ps1</code></td><td>卸载脚本（删除快捷方式）</td></tr>
   <tr><td><code>icon.ico</code></td><td>应用图标（官方鲸鱼 Logo）</td></tr>
