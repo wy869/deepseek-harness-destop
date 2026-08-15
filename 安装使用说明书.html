@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeepSeek Harness 桌面版 · 安装与使用说明书</title>
+<style>
+  :root {
+    --blue: #4D6BFE;
+    --blue-dark: #2a4ae0;
+    --ink: #1c2333;
+    --muted: #5b6472;
+    --line: #e6e9f2;
+    --bg: #f7f8fc;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.75;
+    font-size: 15px;
+  }
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 48px 80px;
+    background: #fff;
+    box-shadow: 0 0 40px rgba(28,35,51,.06);
+  }
+  header.hero {
+    background: linear-gradient(135deg, #5a7bff 0%, var(--blue) 45%, var(--blue-dark) 100%);
+    color: #fff;
+    border-radius: 14px;
+    padding: 36px 40px;
+    margin-bottom: 32px;
+  }
+  header.hero h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: .5px; }
+  header.hero .sub { margin: 0; opacity: .92; font-size: 15px; }
+  header.hero .meta { margin-top: 14px; font-size: 12.5px; opacity: .8; }
+  h2 {
+    font-size: 20px;
+    color: var(--blue-dark);
+    border-left: 4px solid var(--blue);
+    padding-left: 12px;
+    margin: 40px 0 14px;
+  }
+  h3 { font-size: 16px; margin: 24px 0 8px; color: #2b3550; }
+  p { margin: 10px 0; }
+  ul, ol { margin: 10px 0; padding-left: 24px; }
+  li { margin: 4px 0; }
+  code, .code {
+    font-family: "Cascadia Code", "Consolas", "Courier New", monospace;
+    font-size: 13px;
+    background: #eef1fb;
+    color: #24306a;
+    border-radius: 4px;
+    padding: 1px 6px;
+  }
+  pre.code {
+    display: block;
+    background: #0f172a;
+    color: #dbe4ff;
+    padding: 16px 18px;
+    border-radius: 8px;
+    overflow-x: auto;
+    line-height: 1.6;
+  }
+  pre.code code { background: none; color: inherit; padding: 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 13.5px;
+  }
+  th, td {
+    border: 1px solid var(--line);
+    padding: 8px 12px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: #f0f3ff; color: #24306a; font-weight: 600; }
+  tr:nth-child(even) td { background: #fafbff; }
+  .note, .tip, .warn {
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 14px;
+  }
+  .note { background: #eef4ff; border: 1px solid #cddbfd; }
+  .tip  { background: #e9fbf0; border: 1px solid #bcebd0; }
+  .warn { background: #fff4e6; border: 1px solid #fbd6a6; }
+  .step { display: flex; gap: 14px; margin: 14px 0; }
+  .step .num {
+    flex: 0 0 30px; height: 30px; border-radius: 50%;
+    background: var(--blue); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px; margin-top: 2px;
+  }
+  .step .body { flex: 1; }
+  .toc {
+    background: #f7f8fc; border: 1px solid var(--line);
+    border-radius: 10px; padding: 18px 24px; margin: 20px 0 8px;
+  }
+  .toc a { color: var(--blue-dark); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .toc ol { margin: 6px 0 0; }
+  .footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12.5px; text-align: center; }
+  @media print {
+    body { background: #fff; }
+    .page { box-shadow: none; padding: 0; max-width: 100%; }
+    header.hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="hero">
+  <h1>🐋 DeepSeek Harness 桌面版</h1>
+  <p class="sub">安装与使用说明书</p>
+  <p class="meta">适用平台：Windows 10 / 11 &nbsp;·&nbsp; 文档版本：1.0</p>
+</header>
+
+<nav class="toc">
+  <strong>目录</strong>
+  <ol>
+    <li><a href="#intro">产品简介</a></li>
+    <li><a href="#principle">运行原理</a></li>
+    <li><a href="#require">系统要求</a></li>
+    <li><a href="#install">安装步骤</a></li>
+    <li><a href="#usage">使用方法</a></li>
+    <li><a href="#config">配置说明</a></li>
+    <li><a href="#faq">常见问题</a></li>
+    <li><a href="#uninstall">卸载</a></li>
+    <li><a href="#files">文件清单</a></li>
+  </ol>
+</nav>
+
+<h2 id="intro">1. 产品简介</h2>
+<p>
+  <strong>DeepSeek Harness 桌面版</strong> 是一个桌面启动器：双击桌面图标，即可在一个<strong>独立的桌面窗口</strong>中打开
+  DeepSeek Harness，无需再打开浏览器，也没有标签页和地址栏，体验如同一个本地安装的桌面应用。
+</p>
+<ul>
+  <li><strong>一键启动</strong>：双击图标，自动拉起后台服务并弹出应用窗口。</li>
+  <li><strong>独立窗口</strong>：自动检测系统已安装/默认的浏览器，以「应用模式」打开无标签页、无地址栏的独立窗口，不额外拉起普通浏览器窗口。</li>
+  <li><strong>官方图标</strong>：桌面/开始菜单图标采用 DeepSeek 官方鲸鱼 Logo。</li>
+  <li><strong>可配置</strong>：端口、默认工作区、窗口大小位置均可在配置文件中调整。</li>
+</ul>
+
+<h2 id="principle">2. 运行原理</h2>
+<p>桌面版本身不改变 DeepSeek Harness 的架构，它做的是「自动后台启动 + 前台独立窗口」两件事：</p>
+<ol>
+  <li>启动器检测后台 Web 服务是否已在运行（默认 <code>http://127.0.0.1:3080</code>）。</li>
+  <li>若未运行，则以后台守护方式执行 <code>dsh web</code>，并等待服务就绪。</li>
+  <li>服务就绪后，自动选择浏览器（默认使用系统默认浏览器），以「应用模式」打开一个独立窗口指向该地址。</li>
+</ol>
+<pre class="code"><code>双击图标
+   │
+   ├─► 检测端口 127.0.0.1:3080
+   │       ├─ 已在运行 ──────────────────────────┐
+   │       └─ 未运行 ─► 启动 dsh web ─► 等待就绪 ─┤
+   │                                             ▼
+   └─────────────────────────────► 打开独立应用窗口（Chromium 系 --app 模式）</code></pre>
+
+<h2 id="require">3. 系统要求</h2>
+<table>
+  <tr><th style="width:34%">项目</th><th>要求</th></tr>
+  <tr><td>操作系统</td><td>Windows 10 / 11（64 位）</td></tr>
+  <tr><td>Node.js</td><td>已安装且 <code>node.exe</code> 位于系统 PATH 中（本机默认 <code>E:\Node.js</code>）</td></tr>
+  <tr><td>浏览器</td><td>任意现代浏览器（Chrome / Edge / QQ浏览器 / 360 / Firefox / Brave 等）。Chromium 系浏览器可获得无地址栏的独立窗口体验</td></tr>
+  <tr><td>DeepSeek Harness</td><td>已通过 <code>dsh</code> 完成初始化（存在 <code>DSH_HOME</code> 配置档，默认 <code>C:\Users\&lt;用户名&gt;\.dsh</code>）</td></tr>
+</table>
+
+<h2 id="install">4. 安装步骤</h2>
+
+<div class="step"><div class="num">1</div><div class="body">
+  打开程序目录：<code>E:\Deepseek Harness\desktop</code>。
+</div></div>
+
+<div class="step"><div class="num">2</div><div class="body">
+  双击运行 <code>install.cmd</code>（或右键 <code>install.ps1</code> →「使用 PowerShell 运行」）。
+</div></div>
+
+<div class="step"><div class="num">3</div><div class="body">
+  安装脚本会校验 Node.js 与 Edge，并在<strong>桌面</strong>和<strong>开始菜单</strong>各创建一个
+  「DeepSeek Harness」快捷方式。
+</div></div>
+
+<div class="step"><div class="num">4</div><div class="body">
+  看到「安装完成」提示即表示成功。
+</div></div>
+
+<div class="tip"><strong>提示：</strong>若安装后图标未立即更新为官方 Logo，可重启资源管理器或注销重登录一次，Windows 图标缓存刷新后即会显示。</div>
+
+<h2 id="usage">5. 使用方法</h2>
+<ol>
+  <li>双击桌面上的 <strong>「DeepSeek Harness」</strong>图标。</li>
+  <li><strong>首次启动</strong>会先在后台启动服务，通常数秒后自动弹出应用窗口（无浏览器工具栏）。</li>
+  <li>若服务此前已在运行，则直接打开窗口，秒开。</li>
+  <li>在窗口中即可像网页版一样开始对话与使用（工作区、会话、设置等均与网页版一致）。</li>
+</ol>
+<div class="note"><strong>说明：</strong>启动后后台服务会常驻（即使关闭窗口，服务仍运行，便于下次秒开）。如需彻底停止服务，可结束 Node.js 相关进程，或重启电脑。</div>
+
+<h2 id="config">6. 配置说明</h2>
+<p>编辑程序目录下的 <code>config.json</code> 可自定义启动行为，保存后下次启动生效：</p>
+<table>
+  <tr><th style="width:30%">字段</th><th style="width:26%">默认值</th><th>说明</th></tr>
+  <tr><td><code>host</code></td><td><code>127.0.0.1</code></td><td>服务监听地址</td></tr>
+  <tr><td><code>port</code></td><td><code>3080</code></td><td>服务端口（与后台 <code>dsh web</code> 一致）</td></tr>
+  <tr><td><code>workspace</code></td><td><code>E:\Deepseek Harness</code></td><td>冷启动时新会话的默认工作区目录</td></tr>
+  <tr><td><code>windowWidth</code></td><td><code>1440</code></td><td>应用窗口宽度（像素）</td></tr>
+  <tr><td><code>windowHeight</code></td><td><code>900</code></td><td>应用窗口高度（像素）</td></tr>
+  <tr><td><code>windowPositionX</code></td><td><code>80</code></td><td>窗口左上角 X 坐标</td></tr>
+  <tr><td><code>windowPositionY</code></td><td><code>40</code></td><td>窗口左上角 Y 坐标</td></tr>
+  <tr><td><code>browser</code></td><td><code>auto</code></td><td>使用哪个浏览器打开：<code>auto</code>（自动检测默认浏览器）、<code>default</code>（强制系统默认）、或具体 id（<code>chrome</code>/<code>edge</code>/<code>firefox</code>/<code>brave</code>/<code>qq</code>/<code>360</code>/<code>opera</code>/<code>vivaldi</code>/<code>sogou</code>），或浏览器可执行文件完整路径</td></tr>
+  <tr><td><code>browserFamily</code></td><td>空</td><td>仅当 <code>browser</code> 填自定义路径时可选：<code>chromium</code>（独立窗口）/ <code>firefox</code> / <code>other</code></td></tr>
+</table>
+
+<h2 id="faq">7. 常见问题</h2>
+
+<h3>Q1：双击图标没有反应？</h3>
+<p>请查看启动日志：<code>%LOCALAPPDATA%\DeepSeekHarness\launcher.log</code>。常见原因：</p>
+<ul>
+  <li>Node.js 不在 PATH 中 —— 可运行 <code>start.cmd</code> 查看控制台报错。</li>
+  <li>未安装 Microsoft Edge。</li>
+</ul>
+
+<h3>Q2：窗口打开了，但页面一直转圈或报错？</h3>
+<p>通常是后台服务未就绪。等待数秒后刷新（窗口内 <code>Ctrl+R</code>）；若仍不行，查看服务日志
+<code>%LOCALAPPDATA%\DeepSeekHarness\server.log</code>。</p>
+
+<h3>Q3：提示端口 3080 被占用？</h3>
+<p>说明已有一个 <code>dsh web</code> 服务在运行（启动器会自动复用，不会重复启动）。若占用者是其他程序，可在
+<code>config.json</code> 中更换 <code>port</code>，并同步以 <code>dsh web --port &lt;新端口&gt;</code> 方式启动服务。</p>
+
+<h3>Q4：桌面图标显示的还是旧图标？</h3>
+<p>Windows 会缓存图标。重启资源管理器（任务管理器 → 结束「Windows 资源管理器」→ 重新运行）或注销重登录即可刷新。</p>
+
+<h3>Q5：想换回自定义「DS」图标？</h3>
+<p>运行程序目录下的 <code>make-icon.ps1</code> 可重新生成「DS」风格图标；运行 <code>make-official-icon.ps1</code> 可重新生成官方鲸鱼图标（需 <code>deepseek-official.png</code> 存在）。</p>
+
+<h3>Q6：想指定用某个浏览器打开？</h3>
+<p>编辑 <code>config.json</code>，把 <code>browser</code> 设为对应值即可，例如 <code>"browser": "edge"</code> 或 <code>"browser": "chrome"</code>。
+默认 <code>auto</code> 会自动使用系统默认浏览器。Chromium 系浏览器会以独立窗口（无地址栏）打开；Firefox 会以新窗口打开。</p>
+
+<h2 id="uninstall">8. 卸载</h2>
+<ol>
+  <li>双击运行程序目录下的 <code>uninstall.cmd</code>。</li>
+  <li>脚本会删除桌面与开始菜单中的快捷方式（<strong>程序文件保留</strong>，以便重新安装）。</li>
+  <li>如需彻底删除，手动删除整个 <code>E:\Deepseek Harness\desktop</code> 目录，以及日志目录
+  <code>%LOCALAPPDATA%\DeepSeekHarness</code>。</li>
+</ol>
+
+<h2 id="files">9. 文件清单</h2>
+<table>
+  <tr><th style="width:34%">文件</th><th>用途</th></tr>
+  <tr><td><code>launcher.js</code></td><td>核心启动器：检测服务 → 启动 → 打开窗口</td></tr>
+  <tr><td><code>launcher.vbs</code></td><td>隐藏控制台的启动入口（桌面快捷方式指向它）</td></tr>
+  <tr><td><code>start.cmd</code></td><td>带控制台的调试入口（排错时使用）</td></tr>
+  <tr><td><code>install.cmd</code> / <code>install.ps1</code></td><td>安装脚本（生成快捷方式）</td></tr>
+  <tr><td><code>uninstall.cmd</code> / <code>uninstall.ps1</code></td><td>卸载脚本（删除快捷方式）</td></tr>
+  <tr><td><code>icon.ico</code></td><td>应用图标（官方鲸鱼 Logo）</td></tr>
+  <tr><td><code>deepseek-official.png</code></td><td>官方 Logo 源图</td></tr>
+  <tr><td><code>make-official-icon.ps1</code></td><td>用官方 Logo 重新生成图标</td></tr>
+  <tr><td><code>make-icon.ps1</code></td><td>生成「DS」风格替代图标</td></tr>
+  <tr><td><code>config.json</code></td><td>用户配置</td></tr>
+  <tr><td><code>README.txt</code></td><td>纯文本快速说明</td></tr>
+</table>
+
+<h3>日志位置</h3>
+<pre class="code"><code>%LOCALAPPDATA%\DeepSeekHarness\launcher.log   启动器日志
+%LOCALAPPDATA%\DeepSeekHarness\server.log     后台服务日志</code></pre>
+
+<div class="footer">DeepSeek Harness 桌面版 · 安装与使用说明书 · v1.0</div>
+
+</div>
+</body>
+</html>
