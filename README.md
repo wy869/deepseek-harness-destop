@@ -1,5 +1,10 @@
 # DeepSeek Harness 桌面版（Electron）
 
+![Platform](https://img.shields.io/badge/Platform-Windows_10%2F11-0078D6?logo=windows&logoColor=white)
+![Electron](https://img.shields.io/badge/Electron-43.4.0-47848F?logo=electron&logoColor=white)
+![Node](https://img.shields.io/badge/Node.js-%E2%89%A520-339933?logo=node.js&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
+
 一个基于 **Electron** 的 DeepSeek Harness 本地桌面软件：双击图标即可在**原生窗口**中打开
 DeepSeek Harness，不依赖任何浏览器，无标签页、无地址栏。
 
