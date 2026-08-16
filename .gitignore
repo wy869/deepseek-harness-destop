@@ -1,0 +1,17 @@
+# 依赖（Electron 运行时体积大，用 npm install 恢复）
+app/node_modules/
+
+# 日志与缓存
+*.log
+.npm/
+.npm-cache/
+*.tmp
+_tmp/
+
+# 生成的 PDF（HTML 为源文档，PDF 可自行打印导出）
+*.pdf
+
+# 系统文件
+Thumbs.db
+Desktop.ini
+.DS_Store

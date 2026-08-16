@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%; height: 100%;
+    background: transparent;
+    overflow: hidden;
+    font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    -webkit-user-select: none; user-select: none;
+  }
+  body {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border-radius: 22px;
+    background: linear-gradient(180deg, #171b34 0%, #0a0c18 100%);
+  }
+  .glow {
+    position: absolute; top: 0; left: 0; width: 100%; height: 62%;
+    background: radial-gradient(ellipse at 50% 30%, rgba(77,107,254,.35) 0%, rgba(77,107,254,0) 70%);
+  }
+  .halo {
+    position: absolute; top: 50px; left: 50%; transform: translateX(-50%);
+    width: 190px; height: 190px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(90,120,255,.30) 0%, rgba(90,120,255,0) 70%);
+    animation: breathe 2.4s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: .75; }
+    50%      { transform: translateX(-50%) scale(1.12); opacity: 1; }
+  }
+  .logo {
+    position: relative; width: 128px; height: 128px; margin-bottom: 20px;
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-7px); }
+  }
+  .title {
+    position: relative; color: #ffffff; font-size: 27px; font-weight: 700;
+    letter-spacing: .5px; text-shadow: 0 0 22px rgba(77,107,254,.55);
+  }
+  .subtitle {
+    position: relative; margin-top: 10px; color: #98a4c0; font-size: 13.5px; letter-spacing: 1px;
+  }
+  .bar-track {
+    position: relative; margin-top: 26px; width: 320px; height: 4px;
+    border-radius: 2px; background: #2c3450; overflow: hidden;
+  }
+  .bar-fill {
+    width: 40%; height: 100%; border-radius: 2px;
+    background: linear-gradient(90deg, rgba(77,107,254,0) 0%, #7f96ff 50%, rgba(77,107,254,0) 100%);
+    animation: slide 1.4s linear infinite;
+  }
+  @keyframes slide {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(320px); }
+  }
+</style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="halo"></div>
+  <img class="logo" src="../icon.png" alt="DeepSeek" draggable="false">
+  <div class="title">DeepSeek Harness</div>
+  <div class="subtitle" id="sub">正在启动</div>
+  <div class="bar-track"><div class="bar-fill"></div></div>
+  <script>
+    const el = document.getElementById("sub");
+    let n = 0;
+    setInterval(() => { n = (n + 1) % 4; el.textContent = "正在启动" + ".".repeat(n); }, 350);
+  </script>
+</body>
+</html>
